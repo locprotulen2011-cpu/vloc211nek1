@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gojo Profile - vloc211nek ✨</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Font Quicksand -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: #fff;
+            overflow-x: hidden;
+            background: #000;
+        }
+
+        /* Nền Gojo Satoru GIF động */
+        .bg-gojo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://media.giphy.com/media/UgV8Y7bDoxzdg09bV1/giphy.gif');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1;
+            filter: brightness(0.65) contrast(1.1);
+        }
+
+        /* Lớp phủ huyền bí */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(3, 0, 20, 0.78) 100%);
+            z-index: 2;
+        }
+
+        /* Màn hình Welcome để mở khóa âm thanh */
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 0, 20, 0.92);
+            backdrop-filter: blur(15px);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        #welcome-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .welcome-btn {
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            color: #000;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 14px 28px;
+            border-radius: 30px;
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
+            animation: pulse-btn 1.5s infinite;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @keyframes pulse-btn {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        /* Card Thông Tin Glassmorphism */
+        .card {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 410px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            border-radius: 28px;
+            padding: 28px 22px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8),
+                        0 0 30px rgba(56, 189, 248, 0.25);
+            text-align: center;
+            margin: 20px 0;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-7px); }
+        }
+
+        /* Khung Avatar Mèo */
+        .avatar-box {
+            position: relative;
+            width: 115px;
+            height: 115px;
+            margin: 0 auto 12px;
+        }
+
+        .avatar-box img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 0 25px #00f2fe, 0 0 45px rgba(56, 189, 248, 0.5);
+            transition: transform 0.4s ease;
+        }
+
+        .avatar-box:hover img {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Tiêu đề Profile */
+        h2 {
+            font-size: 1.55rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #38bdf8, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+
+        /* Tiểu sử Bio */
+        .bio {
+            font-size: 0.98rem;
+            color: #ffe4e6;
+            margin-bottom: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(244, 114, 182, 0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px dashed rgba(244, 114, 182, 0.5);
+        }
+
+        .heart {
+            color: #ff3366;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        /* Khung phát nhạc Lưu Niên */
+        .music-player {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 16px;
+            padding: 10px 14px;
+            margin-bottom: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            border-color: #38bdf8;
+            background: rgba(0, 0, 0, 0.65);
+        }
+
+        .music-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            cursor: pointer;
+            flex-grow: 1;
+        }
+
+        .disc {
+            font-size: 1.5rem;
+            color: #38bdf8;
+            animation: spin 3s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .disc.playing {
+            animation-play-state: running;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .song-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #f1f5f9;
+        }
+
+        .artist {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .play-btn {
+            font-size: 1.1rem;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.15);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+
+        .zing-link {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            transition: transform 0.2s ease;
+        }
+
+        .zing-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(37, 117, 252, 0.6);
+        }
+
+        /* Danh sách nút bấm */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.93rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .link-btn i {
+            font-size: 1.25rem;
+            width: 32px;
+            text-align: left;
+        }
+
+        .link-btn span {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .link-btn .arrow {
+            opacity: 0.5;
+            font-size: 0.85rem;
+            transition: transform 0.3s;
+        }
+
+        .link-btn.fb:hover {
+            background: #1877f2;
+            box-shadow: 0 0 20px rgba(24, 119, 242, 0.8);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .link-btn.tiktok:hover {
+            background: #010101;
+            border-color: #fe2c55;
+            box-shadow: 0 0 20px rgba(254, 44, 85, 0.7);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .link-btn.discord:hover {
+            background: #5865f2;
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.8);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .link-btn.zalo:hover {
+            background: #0068ff;
+            box-shadow: 0 0 20px rgba(0, 104, 255, 0.8);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .link-btn:hover .arrow {
+            transform: translateX(4px);
+            opacity: 1;
+        }
+
+        /* Toast sao chép */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 0, 0, 0.9);
+            color: #38bdf8;
+            border: 1px solid #38bdf8;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        #toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        #youtube-audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Màn hình chào để vượt qua rào cản Autoplay của trình duyệt -->
+    <div id="welcome-screen" onclick="startExperience()">
+        <div class="welcome-btn">
+            <i class="fa-solid fa-play"></i> Bấm để vào web & Bật nhạc ✨
+        </div>
+    </div>
+
+    <!-- Nền Anime Gojo GIF -->
+    <div class="bg-gojo"></div>
+    <div class="overlay"></div>
+
+    <!-- Khung Card Profile -->
+    <div class="card">
+        <div class="avatar-box">
+            <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=400&q=80" alt="Cute Cat Avatar">
+        </div>
+
+        <h2>vloc211nek ✨</h2>
+        
+        <div class="bio">
+            <span>thương em nhìu lắm hihi</span>
+            <i class="fa-solid fa-heart heart"></i>
+        </div>
+
+        <!-- Trình phát nhạc bài Lưu Niên -->
+        <div class="music-player">
+            <div class="music-left" onclick="toggleMusic()">
+                <div class="play-btn">
+                    <i class="fa-solid fa-play" id="play-icon"></i>
+                </div>
+                <i class="fa-solid fa-compact-disc disc" id="disc-icon"></i>
+                <div>
+                    <div class="song-name">Lưu Niên</div>
+                    <div class="artist">Jack - J97</div>
+                </div>
+            </div>
+            <a href="https://zingmp3.vn/album/Luu-Nien-Single-Jack-J97/bov8DBLN7VEN.html" target="_blank" class="zing-link" title="Mở trên Zing MP3">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Zing MP3
+            </a>
+        </div>
+
+        <!-- Các liên kết -->
+        <div class="links-container">
+            <a href="https://www.facebook.com/share/19qNbNonLh/" target="_blank" class="link-btn fb">
+                <i class="fa-brands fa-facebook"></i>
+                <span>Facebook cá nhân</span>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="https://www.tiktok.com/@vloc211nekzz" target="_blank" class="link-btn tiktok">
+                <i class="fa-brands fa-tiktok"></i>
+                <span>TikTok @vloc211nekzz</span>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="https://discord.gg/yTutVksaJd" target="_blank" class="link-btn discord">
+                <i class="fa-brands fa-discord"></i>
+                <span>Ghé Discord Chém Gió</span>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+
+            <a href="https://zalo.me/0389727732" target="_blank" onclick="copyZalo(event)" class="link-btn zalo">
+                <i class="fa-solid fa-phone"></i>
+                <span>Zalo: 0389727732</span>
+                <i class="fa-solid fa-chevron-right arrow"></i>
+            </a>
+        </div>
+    </div>
+
+    <div id="toast">Đã sao chép SĐT Zalo vào bộ nhớ tạm! ✨</div>
+
+    <!-- YouTube IFrame API Container ngầm -->
+    <div id="youtube-audio"></div>
+
+    <script>
+        let player;
+        let isPlaying = false;
+        let isReady = false;
+
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-audio', {
+                height: '0',
+                width: '0',
+                videoId: 'mqjomPydAPY', // Video ID bài Lưu Niên - Jack J97
+                playerVars: {
+                    'autoplay': 0,
+                    'loop': 1,
+                    'playlist': 'mqjomPydAPY'
+                },
+                events: {
+                    'onReady': () => { isReady = true; },
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            const disc = document.getElementById('disc-icon');
+            const icon = document.getElementById('play-icon');
+            if (event.data === YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                disc.classList.add('playing');
+                icon.className = 'fa-solid fa-pause';
+            } else {
+                isPlaying = false;
+                disc.classList.remove('playing');
+                icon.className = 'fa-solid fa-play';
+            }
+        }
+
+        // Người dùng bấm vào nút chào -> Ẩn màn chào và phát ngay
+        function startExperience() {
+            document.getElementById('welcome-screen').classList.add('hidden');
+            if (player && isReady) {
+                player.playVideo();
+            } else {
+                // Đợi nếu mạng load api chậm một chút
+                setTimeout(() => {
+                    if (player) player.playVideo();
+                }, 800);
+            }
+        }
+
+        function toggleMusic() {
+            if (!player) return;
+            if (isPlaying) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        }
+
+        function copyZalo(e) {
+            navigator.clipboard.writeText("0389727732");
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
